@@ -46,10 +46,12 @@ namespace sdbus { namespace internal {
         enum class BusType
         {
             eSystem,
-            eSession
+            eSession,
+            eRemoteSystem,
         };
 
         Connection(BusType type, std::unique_ptr<ISdBus>&& interface);
+        Connection(const std::string& host, std::unique_ptr<ISdBus>&& interface);
         ~Connection() override;
 
         void requestName(const std::string& name) override;
@@ -119,8 +121,8 @@ namespace sdbus { namespace internal {
 
         std::thread asyncLoopThread_;
         int loopExitFd_{-1};
+        std::string host_;
     };
-
 }}
 
 #endif /* SDBUS_CXX_INTERNAL_CONNECTION_H_ */
